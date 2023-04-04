@@ -316,8 +316,8 @@ class Assignment (object) :
         cg = sns.clustermap(dists, row_linkage=link, col_linkage=link, **kw["sns"])
         plt.setp(cg.ax_heatmap.yaxis.get_majorticklabels(), rotation=0)
         ax = cg.ax_heatmap
-        xl = [t.label.get_text() for t in ax.xaxis.get_major_ticks()]
-        yl = [t.label.get_text() for t in ax.yaxis.get_major_ticks()]
+        xl = [t.label1.get_text() for t in ax.xaxis.get_major_ticks()]
+        yl = [t.label1.get_text() for t in ax.yaxis.get_major_ticks()]
         mossdir = self.report_dir.relative_to(self.root)
         for i, x in enumerate(xl) :
             for j, y in enumerate(yl) :

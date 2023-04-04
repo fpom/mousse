@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pymousse"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
   { name="Franck Pommereau", email="franck.pommereau@univ-evry.fr" },
 ]
@@ -23,6 +23,7 @@ dependencies = [
   "tqdm",
   "mosspy",
   "thefuzz",
+  "python-Levenshtein",
   "pandas",
   "numpy",
   "scipy",
