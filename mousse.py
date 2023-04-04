@@ -44,7 +44,7 @@ class Language :
         section = config[f"lang:{lang}"]
         self.suffix = section["suffix"]
         self.search = shlex.split(section["search"]) or ["*"]
-        self.cmt_format = self._mkcmt(section["comment"])
+        self.cmt_format = self._mk_cmt(section["comment"])
         self.moss_lang = section["moss_lang"]
     _spn = re.compile(r"\s{2,}")
     _spx = re.compile(r"(?<=\W)\s|\s(?=\W)")
@@ -56,10 +56,10 @@ class Language :
         if not isinstance(cmt, (list, tuple, set)) :
             cmt = [cmt]
         cmt = list(cmt)
-        if isinstance(cmt, str) :
-            self._cmt_left, self._cmt_right = cmt, ""
+        if isinstance(cmt[0], str) :
+            self._cmt_left, self._cmt_right = cmt[0], ""
         else :
-            self._cmt_left, self._cmt_right = cmt
+            self._cmt_left, self._cmt_right = cmt[0]
         choice = []
         for c in cmt :
             if isinstance(c, str) :
@@ -318,7 +318,7 @@ class Assignment (object) :
         ax = cg.ax_heatmap
         xl = [t.label.get_text() for t in ax.xaxis.get_major_ticks()]
         yl = [t.label.get_text() for t in ax.yaxis.get_major_ticks()]
-        mossdir = self.report.relative_to(self.root)
+        mossdir = self.report_dir.relative_to(self.root)
         for i, x in enumerate(xl) :
             for j, y in enumerate(yl) :
                 if x == y :

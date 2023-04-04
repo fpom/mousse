@@ -22,8 +22,8 @@ Run `pip install pymousse`.
 
 `mousse` depends on:
  - Python 3 (developed with 3.9, may work with earlier versions)
- - [`request`](https://pypi.org/project/requests/)
- - [beautiful soup](https://pypi.org/project/beautifulsoup4/)
+ - [`requests`](https://pypi.org/project/requests/)
+ - [`beautifulsoup4`](https://pypi.org/project/beautifulsoup4/)
  - [`chardet`](https://pypi.org/project/chardet/)
  - [`tqdm`](https://pypi.org/project/tqdm/)
  - [`mosspy`](https://pypi.org/project/mosspy/)
@@ -33,6 +33,8 @@ Run `pip install pymousse`.
  - [`scipy`](https://pypi.org/project/scipy/)
  - [`seaborn`](https://pypi.org/project/seaborn/)
  - [`matplotlib`](https://pypi.org/project/matplotlib/)
+
+(By the way, _pymousse_ if pronounced in French as a famous brand of candies called _Pimousse_, and as name _mousse_ was already used on PyPi, it was natural to name the project like this.)
 
 ## Using `mousse`
 
