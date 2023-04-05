@@ -98,9 +98,12 @@ class Assignment (object) :
         self.tmp = Path(self._tmp.name)
     def run (self, prune, absolute, clean, **args) :
         self.walk()
-        self.submit()
+        url = self.submit()
+        if not url.startswith("http://") or url.startswith("https://") :
+            return "Failed to get report URL"
         self.download()
-        self.extract(clean)
+        if not self.extract(clean) :
+            return "MOSS reported no matches"
         self.heatmap(prune, absolute, **args)
     def walk (self) :
         self.projects = []
@@ -216,6 +219,8 @@ class Assignment (object) :
                 dists[left, right] = dists[right, left] = (1.0 - 2*c / (c/wl + c/wr))
                 copied[left, right] = copied[right, left] = max(wr, wl)
                 left = right = None
+        if not dists :
+            return False
         from thefuzz import fuzz
         import pandas as pd
         data = []
@@ -243,6 +248,7 @@ class Assignment (object) :
                     else :
                         df.write(f",{dists[row,col]}")
                 df.write("\n")
+        return True
     def heatmap (self, prune=.5, absolute=False, **args) :
         import pandas as pd
         import numpy as np
@@ -325,7 +331,7 @@ class Assignment (object) :
                     continue
                 if url := self.report_map.get((x,y), None) :
                     ax.annotate("@", xy=(i+.5,j+.5), ha="center", va="center", alpha=0.0,
-                                url=f"{mossdir}/{url}",
+                                url=f"l{mossdir}/{url}",
                                 bbox={"color": "w", "alpha": 0.0,
                                       "url": f"{mossdir}/{url}"})
         plt.setp(cg.ax_heatmap.xaxis.get_majorticklabels(), rotation=90)
@@ -399,4 +405,6 @@ if __name__ == "__main__" :
     if args.prune <= 0 :
         args.prune = None
     assign = Assignment(args.root, args.lang, args.source, args.report, args.base)
-    assign.run(args.prune, args.absolute, not args.raw, **options)
+    msg = assign.run(args.prune, args.absolute, not args.raw, **options)
+    if msg is not None :
+        parser.exit(2, f"{msg}\n")
