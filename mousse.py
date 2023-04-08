@@ -141,6 +141,7 @@ class Assignment (object) :
                 yield child
     def submit (self) :
         moss = Moss(config["moss"]["userid"], self.lang.moss_lang)
+        moss.setIgnoreLimit(10 * len(self.projects))
         with chdir(self.tmp) :
             if self.base is not None :
                 moss.addBaseFile(str(self._base))
@@ -332,7 +333,7 @@ class Assignment (object) :
                     continue
                 if url := self.report_map.get((x,y), None) :
                     ax.annotate("@", xy=(i+.5,j+.5), ha="center", va="center", alpha=0.0,
-                                url=f"l{mossdir}/{url}",
+                                url=f"{mossdir}/{url}",
                                 bbox={"color": "w", "alpha": 0.0,
                                       "url": f"{mossdir}/{url}"})
         plt.setp(cg.ax_heatmap.xaxis.get_majorticklabels(), rotation=90)
