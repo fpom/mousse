@@ -96,12 +96,13 @@ class Assignment (object) :
         self.base = self.root / base if base else None
         self._tmp = TemporaryDirectory()
         self.tmp = Path(self._tmp.name)
-    def run (self, prune, absolute, clean, **args) :
-        self.walk()
-        url = self.submit()
-        if not url.startswith("http://") or url.startswith("https://") :
-            return "Failed to get report URL"
-        self.download()
+    def run (self, incremental, prune, absolute, clean, **args) :
+        if not incremental or not self.report_dir.exists() :
+            self.walk()
+            url = self.submit()
+            if not url.startswith("http://") or url.startswith("https://") :
+                return "Failed to get report URL"
+            self.download()
         if not self.extract(clean) :
             return "MOSS reported no matches"
         self.heatmap(prune, absolute, **args)
@@ -345,6 +346,8 @@ if __name__ == "__main__" :
                                      description="submit source to MOSS and extract data")
     parser.add_argument("-c", "--config", default=None, type=str,
                         help="configuration file (default: '~/.config/mousse.ini')")
+    parser.add_argument("-i", "--incremental", default=False, action="store_true",
+                        help="continue previously started analysis")
     parser.add_argument("-u", "--userid", default=None, type=int,
                         help="MOSS user id")
     parser.add_argument("-s", "--source", default="projects", type=str,
@@ -405,6 +408,6 @@ if __name__ == "__main__" :
     if args.prune <= 0 :
         args.prune = None
     assign = Assignment(args.root, args.lang, args.source, args.report, args.base)
-    msg = assign.run(args.prune, args.absolute, not args.raw, **options)
+    msg = assign.run(args.incremental, args.prune, args.absolute, not args.raw, **options)
     if msg is not None :
         parser.exit(2, f"{msg}\n")

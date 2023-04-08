@@ -28,6 +28,8 @@ Run `pip install pymousse`.
  - [`tqdm`](https://pypi.org/project/tqdm/)
  - [`mosspy`](https://pypi.org/project/mosspy/)
  - [`thefuzz`](https://pypi.org/project/thefuzz/)
+ - [`python-Levenshtein`](https://pypi.org/project/python-Levenshtein/)
+ - [`fastcluster`](https://pypi.org/project/fastcluster/)
  - [`pandas`](https://pypi.org/project/pandas/)
  - [`numpy`](https://pypi.org/project/numpy/)
  - [`scipy`](https://pypi.org/project/scipy/)
@@ -88,6 +90,8 @@ Note that the diagonal of such a heatmap is red by definition because it compare
    use `USERID` to authenticate with MOSS
  - `-c CONFIG`, `--config CONFIG`
    path of configuration file (see below)
+ - `-i`, `--incremental` (default: no)
+   do not submit source and dowload MOSS report is it exists
  - `-s SOURCE`, `--source SOURCE` (default: `projects`)
    the directory within `root` where projects are located
  - `-b BASE`, `--base BASE` (default: none)
