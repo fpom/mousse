@@ -179,10 +179,13 @@ class Assignment (object) :
                              f"{base}-top{suffix}"])
             log.total = len(todo)
             with futures.ThreadPoolExecutor(max_workers=10) as pool :
-                tasks = [pool.submit(self._http_get, path, self.report_dir / path)
-                         for path in todo]
-                for done in futures.as_completed(tasks) :
-                    log.update()
+                try :
+                    tasks = [pool.submit(self._http_get, path, self.report_dir / path)
+                             for path in todo]
+                    for done in futures.as_completed(tasks) :
+                        log.update()
+                finally :
+                    pool.shutdown(wait=True, cancel_futures=True)
     def _extract_side (self, name, side) :
         path = self.report_dir / f"{name.stem}-{side}{name.suffix}"
         soup = bs4.BeautifulSoup(path.read_text(), "lxml")
